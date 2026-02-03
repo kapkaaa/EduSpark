@@ -1,5 +1,6 @@
 package com.example.edusparkapi.ui.game
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,13 @@ class GameAdapter (
         holder.txtName.text = game.name
         holder.txtCategory.text = game.category
         holder.txtCount.text = "${game.totalPlayer.toString()} Players"
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, GameActivity::class.java)
+            intent.putExtra("GAME_ID", game.id)
+            intent.putExtra("GAME NAME", game.name)
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount() = list.size
