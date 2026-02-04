@@ -14,7 +14,7 @@ class GameActivity : AppCompatActivity() {
 
         val txtjudul = findViewById<TextView>(R.id.txtJudul)
 
-        val gameName = intent.getStringExtra("EduSpark")
+        val gameName = intent.getStringExtra("GAME_NAME")
         txtjudul.text = gameName
 
         val gameid = intent.getIntExtra("GAME_ID", -1)

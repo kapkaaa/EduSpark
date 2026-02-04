@@ -35,7 +35,7 @@ class GameAdapter (
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, GameActivity::class.java)
             intent.putExtra("GAME_ID", game.id)
-            intent.putExtra("GAME NAME", game.name)
+            intent.putExtra("GAME_NAME", game.name)
             holder.itemView.context.startActivity(intent)
         }
     }
