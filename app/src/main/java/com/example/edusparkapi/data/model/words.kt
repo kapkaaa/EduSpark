@@ -2,8 +2,7 @@ package com.example.edusparkapi.data.model
 
 data class Words (
     val id: Int,
-    val imagePath: String,
+    val image: String,
     val word: String,
-    val point: Int,
-    val gameID: Int
+    val point: Int
 )
