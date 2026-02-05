@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var rvGame: RecyclerView
     private val gameList = mutableListOf<Game>()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         rvGame.layoutManager = LinearLayoutManager(this)
 
         fetchGames()
+
     }
 
     private fun fetchGames() {

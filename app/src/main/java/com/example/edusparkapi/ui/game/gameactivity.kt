@@ -1,5 +1,7 @@
 package com.example.edusparkapi.ui.game
 
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -11,12 +13,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.edusparkapi.R
+import com.example.edusparkapi.data.model.Leaderboard
 import com.example.edusparkapi.data.model.Words
+import com.example.edusparkapi.leaderboard.LeaderboardActivity
 import org.json.JSONArray
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
+import kotlin.concurrent.thread
+import java.io.InputStream
 
 class GameActivity : AppCompatActivity() {
 
@@ -57,8 +63,9 @@ class GameActivity : AppCompatActivity() {
                 currentIndex++
                 showQuestion()
             }else {
-                Toast.makeText(this, "Finish Score: $score", Toast.LENGTH_LONG).show()
-                finish()
+                val  intent = Intent(this, LeaderboardActivity::class.java)
+                intent.putExtra("GAME_ID", gameId)
+                startActivity(intent)
             }
         }
 
@@ -124,7 +131,26 @@ class GameActivity : AppCompatActivity() {
 
         val imageUrl = "http://10.0.2.2:5000/images/${words.image}"
         Log.d("image", imageUrl)
-        Glide.with(this).load(imageUrl).into(imageView)
+
+        thread {
+            try {
+                val url = URL(imageUrl)
+                val conn = url.openConnection() as HttpURLConnection
+                conn.doInput = true
+                conn.connect()
+                conn.connectTimeout = 5000
+                conn.readTimeout = 5000
+
+                val inputStream = conn.inputStream
+                val bitmap = BitmapFactory.decodeStream(inputStream)
+
+                runOnUiThread {
+                    imageView.setImageBitmap(bitmap)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
 
         hint.text = words.word
             .toCharArray()
